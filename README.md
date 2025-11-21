@@ -1,76 +1,33 @@
 Conversor de Moedas (CLI)
 
-Este projeto é um conversor de moedas em linha de comando (CLI) escrito em Go.
-Ele utiliza um JSON interno contendo taxas de câmbio fixas e converte valores de BRL (Real) para a moeda desejada.
+Este é um conversor simples de moedas feito em Go.
+O programa lê um JSON interno com taxas de câmbio e converte valores de BRL (Real) para a moeda desejada.
 
-📌 Como funciona
+🚀 Como usar
 
-O usuário executa o binário passando dois parâmetros:
-
-O valor em BRL que deseja converter
-
-A moeda de destino, como USD, EUR, JPY etc.
-
-Exemplo:
-
-./convert 10 USD
-
-
-Isso converte R$ 10,00 para Dólar americano (USD) usando a taxa definida no JSON.
-
-🛠️ Instalação
-
-Clone o repositório e acesse a pasta:
-
-git clone https://github.com/SEU_USUARIO/seu-repo.git
-cd seu-repo/cmd
-
-
-Compile o binário:
+Compile o projeto:
 
 go build -o convert
 
 
-Agora execute:
+Execute passando o valor em BRL e a moeda de destino:
 
-./convert 10 EUR
-
-📤 Uso
-./convert [valor_em_brl] [moeda_destino]
-
+./convert [valor] [moeda]
 
 Exemplos:
-
-./convert 50 USD
-./convert 120 eur
-./convert 200 jpy
-
-
-A moeda não diferencia maiúsculas de minúsculas (usd, UsD, USD — tudo funciona).
-
-🧩 Estrutura do JSON
-
-O programa utiliza internamente um JSON no formato:
-
-{
-  "base": "BRL",
-  "date": "2025-04-14",
-  "rates": {
-    "USD": 0.151,
-    "EUR": 0.137
-  }
-}
-
-
-A conversão é feita multiplicando o valor em BRL pela taxa correspondente.
-
-✔️ Exemplos de saída
 ./convert 10 USD
-1.51
+./convert 50 EUR
+./convert 200 JPY
 
-./convert 200 EUR
-27.40
 
-📎 Observação
+A moeda pode ser digitada em qualquer formato (usd, USD, UsD etc.).
 
-As taxas de câmbio são fixas e apenas para fins de estudo.
+📌 O que o programa faz
+
+Carrega um JSON com as cotações.
+
+Verifica se a moeda informada existe.
+
+Converte o valor em BRL multiplicando pela taxa correspondente.
+
+Exibe o valor convertido no terminal.
