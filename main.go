@@ -1,16 +1,37 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
-type conversao struct {
-	base  string             `json:"base"`
-	date  string             `json:"date"`
-	rates map[string]float64 `json:"rates"`
+type exchange struct {
+	Base  string             `json:"base"`
+	Date  string             `json:"date"`
+	Rates map[string]float64 `json:"rates"`
 }
 
-var jsonStr = `
+func main() {
+	if len(os.Args) != 3 {
+		fmt.Println("Utilize: ./convert [valor] [moeda_destino]")
+		os.Exit(1)
+	}
+
+	real := os.Args[1]
+	moeda_destino := os.Args[2]
+
+	realBrl, err := strconv.ParseFloat(real, 64)
+	if err != nil {
+		fmt.Println("Valor invalido")
+		os.Exit(1)
+	}
+
+	moeda_destino = strings.ToUpper(strings.TrimSpace(moeda_destino))
+
+	str := `
 {
   "base": "BRL",
   "date": "2025-04-14",
@@ -47,16 +68,20 @@ var jsonStr = `
   }
 }
 `
+	var data exchange
 
-func main() {
-	var valor_em_brl float64
-	var moeda_destino string
-	fmt.Println("Insira o valor em reais:")
-	fmt.Scanln(&valor_em_brl)
-	fmt.Println("Insira a moeda para conversao:")
-	fmt.Scanln(&moeda_destino)
+	if err := json.Unmarshal([]byte(str), &data); err != nil {
+		fmt.Println("erro ao carregar dados", err)
+		os.Exit(1)
+	}
 
-	fmt.Println(valor_em_brl)
-	fmt.Println(moeda_destino)
+	cotacao, ok := data.Rates[moeda_destino]
+	if !ok {
+		fmt.Println("moeda não encontrada")
+		os.Exit(1)
+	}
 
+	vlrConvertido := realBrl * cotacao
+
+	fmt.Printf("%.2f\n", vlrConvertido)
 }

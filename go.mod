@@ -1,3 +1,3 @@
-module conversor-moedas
+module conversor
 
 go 1.25.1
